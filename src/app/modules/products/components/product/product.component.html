@@ -1,9 +1,11 @@
-<div class="product-container">
-    <img src="{{ img }}">
-    <h3>{{ title }}</h3>
-    <p>S/ {{ price }}</p>
-
-    <button (click)="addToCartHandler()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        Enviar al carrito
-    </button>
+<div class="group rounded-lg border m-3">
+    <a href="#" class="w-full overflow-hidden rounded-t-lg bg-gray-200">
+        <img [src]="product.img" [alt]="product.title" class="h-full w-full object-cover object-center group-hover:opacity-75">
+    </a>
+    <div class="flex flex-col space-y-2 p-4">
+        <h3 class="text-sm text-gray-700 underline">{{ product.title }}</h3>
+        <p class="text-lg font-medium text-gray-900">$ {{ product.price.toFixed(2) }}</p>
+        <button class="text-black bg-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 w-full"
+            (click)="addToCartHandler()">Add to cart</button>
+    </div>
 </div>
