@@ -1,8 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { ProductComponent } from '../../components/product/product.component';
-import { Product } from '../../../shared/models/product.model';
-import { HeaderComponent } from '../../../shared/components/header/header.component';
-import { CartService } from '../../../shared/services/cart.service';
+import { Product } from '@shared/models/product.model';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { CartService } from '@shared/services/cart.service';
+import { ProductService } from '@shared/services/product.service';
 
 @Component({
   selector: 'app-list',
@@ -13,20 +14,21 @@ import { CartService } from '../../../shared/services/cart.service';
 })
 export class ListComponent {
   private cartService = inject(CartService);
+  private productService = inject(ProductService);
+
   products = signal<Product[]>([]);
   cart = this.cartService.cart;
 
-  constructor (){
-    const initProds: Product[] = [
-      {
-        id: Date.now(),
-        img: 'https://picsum.photos/200/300?r=2', 
-        title: 'Prod1',
-        price: 50,
-      }
-    ]
-
-    this.products.set(initProds);
+  ngOnInit() {
+    this.productService.getProducts()
+      .subscribe({
+        next : (products) => {
+          this.products.set(products);
+        },
+        error : (err) => {
+          alert(err);
+        }
+      })
   }
 
   handleAddToCart = (product: Product) => {
